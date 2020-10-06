@@ -1,0 +1,3 @@
+** Download ForumPay Drupal Commerce 2 plugin zip file 
+** In Drupal admin panel select Extend -> Install new module -> Upload File and upload zip archive
+** After Installation go to Modules -> Payment -> ForumPay Payment inside Admin panel and click Edit button
