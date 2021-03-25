@@ -22,36 +22,41 @@
 <div class="fp-details" style="display: none" id="fp-details-div">	
 
 <div class="forumpay-row">	
-<div class="forumpay-col1">Order No</div>
-<div class="forumpay-col2"><snap id="forumpay-ordno">0</snap></div>
+	<div class="forumpay-col1">Order No</div>
+	<div class="forumpay-col2"><snap id="forumpay-ordno">0</snap></div>
 </div>
 	
 <div class="forumpay-row">
-<div class="forumpay-col1">Order Amount:</div>
-<div class="forumpay-col2">	
-<snap id="forumpay-ordamt">0</snap>
-</div>	
-</div>	
-	
-<div class="forumpay-rowsm">
-<div class="forumpay-col1">Rate:</div>
-<div class="forumpay-col2">	
-<snap id="forumpay-exrate"> </snap>
-</div>							  
+	<div class="forumpay-col1">Order Amount:</div>
+	<div class="forumpay-col2">	
+		<snap id="forumpay-ordamt">0</snap>
+	</div>	
 </div>	
 	
-<div class="forumpay-rowsm">
-<div class="forumpay-col1">Exchange amount:</div>
-<div class="forumpay-col2">	
-<snap id="forumpay-examt"> </snap>
-</div>	
-</div>	
-<div class="forumpay-rowsm">
-<div class="forumpay-col1">Network processing fee:</div>
-<div class="forumpay-col2">	
-<snap id="forumpay-netpfee"> </snap>
-</div>	
-</div>	
+
+<details>
+	<summary>Details</summary>
+
+	<div class="forumpay-rowsm">
+		<div class="forumpay-col1">Rate:</div>
+		<div class="forumpay-col2">	
+		<snap id="forumpay-exrate"> </snap>
+		</div>							  
+	</div>	
+	<div class="forumpay-rowsm">
+		<div class="forumpay-col1">Exchange amount:</div>
+		<div class="forumpay-col2">	
+		<snap id="forumpay-examt"> </snap>
+		</div>	
+	</div>	
+	<div class="forumpay-rowsm">
+		<div class="forumpay-col1">Network processing fee:</div>
+		<div class="forumpay-col2">	
+		<snap id="forumpay-netpfee"> </snap>
+		</div>	
+	</div>	
+</details>
+
 <div class="forumpay-row">
 <div class="forumpay-col1">Total:</div>
 <div class="forumpay-col2">	
@@ -89,13 +94,11 @@ Start payment</button>
 </div>		
 
 <div class="forumpay-row forumpay-st" id='forumpay-payst-div' style="display: none">
-  Status : 
-  <snap id="forumpay-payst"></snap>
+  Status: <snap id="forumpay-payst"></snap>
 </div>	
 
 <div class="forumpay-row forumpay-err" id='forumpay-err-div' style="display: none">
-  Error : 
-  <snap id="forumpay-err"> </snap>
+  Error: <snap id="forumpay-err"> </snap>
 </div>	
 		
 </div>		
@@ -124,20 +127,23 @@ Start payment</button>
 	}
 
 	function forumpaygetrate(currency){
-		if (currency == '0') return;
+		if (currency == '0') {
+			clearInterval(fpTimer);
+			$('#forumpay-err-div').hide();
+			$('#fp-details-div').hide();							
+			return;
+		}
+
+		fpcurrency = currency;
+
 		var ajaxurl = "{$getrateurl}";	
 		
-	var data = {									
+		var data = {									
 			currency     : currency,
 		}		
-	
-	
-
-		
- 	
 		
 	 $('#qr-img-div').hide();
-     $('#forumpay-err-div').hide();
+	 $('#forumpay-err-div').hide();
 	 $('#forumpay-loading').show();		
 		
 	jQuery.ajax({
@@ -174,6 +180,7 @@ Start payment</button>
 				}
 			}
 			else {
+				$('#fp-details-div').hide();
 				$('#forumpay-err-div').show();
 				$('#forumpay-err').text(response_json.errmgs);
 			}

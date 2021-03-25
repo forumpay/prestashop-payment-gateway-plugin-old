@@ -2,7 +2,9 @@
 /**
  * FORUMPAY
  */
-use PrestaShop\PrestaShop\Core\Payment\PaymentOption; 
+include dirname(__FILE__) . '/version.php';
+
+use PrestaShop\PrestaShop\Core\Payment\PaymentOption;
 
 if (!defined('_PS_VERSION_'))
     exit;
@@ -14,7 +16,7 @@ class Forumpay extends PaymentModule
     {
         $this->name = 'forumpay';
         $this->tab = 'payments_gateways';
-        $this->version = '1.7';
+        $this->version = FORUMPAY_VERSION;
         $this->author = 'ForumPay';
         $this->need_instance = 1;
         $this->bootstrap = true;        
